@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ResumeCraft - Smart Resume Builder</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="brand">
+        <div class="brand-icon">R</div>
+
+        <div>
+            <h2>ResumeCraft</h2>
+            <span>Smart Resume Builder</span>
+        </div>
+    </div>
+
+    <div class="nav-actions">
+        <button id="themeBtn" class="icon-btn" title="Toggle Theme">
+            🌙
+        </button>
+
+        <button id="downloadBtn" class="download-top">
+            Download PDF
+        </button>
+    </div>
+
+</header>
+
+
+<main class="app-container">
+
+    <!-- ================= LEFT EDITOR ================= -->
+
+    <section class="editor">
+
+        <div class="page-heading">
+            <div>
+                <h1>Build Your Resume</h1>
+                <p>Create a professional ATS-friendly resume.</p>
+            </div>
+
+            <button id="clearBtn" class="clear-btn">
+                Clear
+            </button>
+        </div>
+
+
+        <!-- TEMPLATE -->
+
+        <div class="card">
+
+            <div class="card-title">
+                <div>
+                    <h2>Resume Template</h2>
+                    <p>Select a design for your resume.</p>
+                </div>
+            </div>
+
+            <div class="templates">
+
+                <button class="template active" data-template="classic">
+                    <div class="template-preview classic-preview"></div>
+                    <strong>Classic</strong>
+                </button>
+
+                <button class="template" data-template="modern">
+                    <div class="template-preview modern-preview"></div>
+                    <strong>Modern</strong>
+                </button>
+
+                <button class="template" data-template="minimal">
+                    <div class="template-preview minimal-preview"></div>
+                    <strong>Minimal</strong>
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- PERSONAL INFORMATION -->
+
+        <div class="card">
+
+            <div class="card-title">
+                <div>
+                    <h2>Personal Information</h2>
+                    <p>Your basic contact details.</p>
+                </div>
+            </div>
+
+            <div class="photo-upload">
+
+                <div id="photoPreview" class="profile-placeholder">
+                    👤
+                </div>
+
+                <div>
+                    <label class="upload-btn">
+                        Upload Photo
+                        <input
+                            type="file"
+                            id="photo"
+                            accept="image/*"
+                            hidden
+                        >
+                    </label>
+
+                    <button id="removePhoto" class="remove-photo">
+                        Remove
+                    </button>
+
+                    <small>JPG or PNG recommended</small>
+                </div>
+
+            </div>
+
+
+            <div class="form-grid">
+
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input
+                        id="name"
+                        type="text"
+                        placeholder="Rahul Patel"
+                    >
+                </div>
+
+                <div class="input-group">
+                    <label>Job Title</label>
+                    <input
+                        id="jobTitle"
+                        type="text"
+                        placeholder="Frontend Developer"
+                    >
+                </div>
+
+                <div class="input-group">
+                    <label>Email</label>
+                    <input
+                        id="email"
+                        type="email"
+                        placeholder="rahul@example.com"
+                    >
+                </div>
+
+                <div class="input-group">
+                    <label>Phone</label>
+                    <input
+                        id="phone"
+                        type="text"
+                        placeholder="+91 9876543210"
+                    >
+                </div>
+
+                <div class="input-group">
+                    <label>Location</label>
+                    <input
+                        id="location"
+                        type="text"
+                        placeholder="India"
+                    >
+                </div>
+
+                <div class="input-group">
+                    <label>LinkedIn</label>
+                    <input
+                        id="linkedin"
+                        type="text"
+                        placeholder="linkedin.com/in/username"
+                    >
+                </div>
+
+                <div class="input-group full">
+                    <label>GitHub</label>
+                    <input
+                        id="github"
+                        type="text"
+                        placeholder="github.com/username"
+                    >
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SUMMARY -->
+
+        <div class="card">
+
+            <div class="card-title">
+                <div>
+                    <h2>Professional Summary</h2>
+                    <p>Write a short introduction about yourself.</p>
+                </div>
+
+                <span id="summaryCount">0/500</span>
+            </div>
+
+            <textarea
+                id="summary"
+                class="large-textarea"
+                maxlength="500"
+                placeholder="Frontend Developer with hands-on experience building responsive web applications..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- SKILLS -->
+
+        <div class="card">
+
+            <div class="card-title">
+
+                <div>
+                    <h2>Skills</h2>
+                    <p>Add your technical skills separated by commas.</p>
+                </div>
+
+            </div>
+
+            <input
+                id="skills"
+                type="text"
+                placeholder="HTML5, CSS3, JavaScript, React.js, Git, REST API"
+            >
+
+            <div id="skillTags" class="input-tags"></div>
+
+        </div>
+
+
+        <!-- EDUCATION -->
+
+        <div class="card">
+
+            <div class="card-title">
+
+                <div>
+                    <h2>Education</h2>
+                </div>
+
+                <button id="addEducation" class="add-btn">
+                    + Add Education
+                </button>
+
+            </div>
+
+            <div id="educationContainer"></div>
+
+        </div>
+
+
+        <!-- EXPERIENCE -->
+
+        <div class="card">
+
+            <div class="card-title">
+
+                <div>
+                    <h2>Experience</h2>
+                </div>
+
+                <button id="addExperience" class="add-btn">
+                    + Add Experience
+                </button>
+
+            </div>
+
+            <div id="experienceContainer"></div>
+
+        </div>
+
+
+        <!-- PROJECTS -->
+
+        <div class="card">
+
+            <div class="card-title">
+
+                <div>
+                    <h2>Projects</h2>
+                </div>
+
+                <button id="addProject" class="add-btn">
+                    + Add Project
+                </button>
+
+            </div>
+
+            <div id="projectContainer"></div>
+
+        </div>
+
+
+        <!-- ATS ANALYZER -->
+
+        <div class="card ats-card">
+
+            <div class="card-title">
+
+                <div>
+                    <h2>ATS Resume Analyzer</h2>
+                    <p>Check your resume against common frontend keywords.</p>
+                </div>
+
+            </div>
+
+            <div class="score-area">
+
+                <div class="score-circle">
+                    <span id="atsScore">0</span>
+                    <small>/100</small>
+                </div>
+
+                <div class="score-info">
+
+                    <h3 id="scoreTitle">
+                        Start building your resume
+                    </h3>
+
+                    <p id="scoreMessage">
+                        Add your information to calculate your score.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div id="keywordList" class="keyword-list"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= RIGHT PREVIEW ================= -->
+
+    <section class="preview-section">
+
+        <div class="preview-toolbar">
+
+            <div>
+                <h2>Live Preview</h2>
+                <span>Updates automatically</span>
+            </div>
+
+            <div class="zoom-controls">
+
+                <button id="zoomOut">−</button>
+
+                <span id="zoomValue">100%</span>
+
+                <button id="zoomIn">+</button>
+
+            </div>
+
+        </div>
+
+
+        <div class="resume-wrapper">
+
+            <div id="resumePreview" class="resume classic">
+
+                <div class="resume-top">
+
+                    <div class="resume-header">
+
+                        <h1 id="previewName">
+                            Rahul Patel
+                        </h1>
+
+                        <h2 id="previewJob">
+                            Frontend Developer
+                        </h2>
+
+                        <div class="contact">
+
+                            <span id="previewEmail">
+                                email@example.com
+                            </span>
+
+                            <span id="previewPhone">
+                                +91 9876543210
+                            </span>
+
+                            <span id="previewLocation">
+                                India
+                            </span>
+
+                        </div>
+
+                        <div class="links">
+
+                            <span id="previewLinkedin">
+                                linkedin.com
+                            </span>
+
+                            <span id="previewGithub">
+                                github.com
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="previewPhoto"
+                        class="resume-photo"
+                    >
+                        👤
+                    </div>
+
+                </div>
+
+
+                <div class="resume-section">
+
+                    <h3>PROFILE</h3>
+
+                    <p id="previewSummary">
+                        Your professional summary will appear here.
+                    </p>
+
+                </div>
+
+
+                <div class="resume-section">
+
+                    <h3>SKILLS</h3>
+
+                    <div
+                        id="previewSkills"
+                        class="resume-skills"
+                    ></div>
+
+                </div>
+
+
+                <div class="resume-section">
+
+                    <h3>EDUCATION</h3>
+
+                    <div id="previewEducation"></div>
+
+                </div>
+
+
+                <div class="resume-section">
+
+                    <h3>EXPERIENCE</h3>
+
+                    <div id="previewExperience"></div>
+
+                </div>
+
+
+                <div class="resume-section">
+
+                    <h3>PROJECTS</h3>
+
+                    <div id="previewProjects"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <button
+            id="downloadBottom"
+            class="download-large"
+        >
+            Download Professional PDF
+        </button>
+
+    </section>
+
+</main>
+
+
+<div id="toast" class="toast">
+    Saved successfully
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
